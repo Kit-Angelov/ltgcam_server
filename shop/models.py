@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Photo(models.Model):
@@ -71,6 +72,7 @@ class Mark(models.Model):
 
 class AutoModel(models.Model):
     main_photo = models.ForeignKey('Photo', on_delete=models.DO_NOTHING, related_name='main_photo')
+    description = models.ForeignKey('Description', on_delete=models.DO_NOTHING)
     galery_photo = models.ManyToManyField('Photo', related_name='galery_photo')
     options = models.ManyToManyField('Options')
     main_options = models.ManyToManyField('MainOptions')
@@ -80,7 +82,7 @@ class AutoModel(models.Model):
     price = models.IntegerField()
 
     def __str__(self):
-        return '{} {}; {}'.format(self.mark.name, self.name, self.price)
+        return '{} {}; {}'.format(self.mark.name, self.name, str(self.price))
 
     class Meta:
         verbose_name = 'Модель авто'
@@ -88,13 +90,13 @@ class AutoModel(models.Model):
 
 
 class OrderCall(models.Model):
-    time = models.DateTimeField(auto_now=True)
+    time = models.DateTimeField(default=timezone.now())
     fio = models.TextField()
     phone = models.CharField(max_length=100)
-    comment = models.TextField()
+    comment = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return '{}; {}; {}'.format(self.time, self.fio, self.phone)
+        return '{}; {}; {}'.format(str(self.time)[:19], self.fio, self.phone)
 
     class Meta:
         verbose_name = 'Заказ звонка'
@@ -102,15 +104,15 @@ class OrderCall(models.Model):
 
 
 class PartnersCall(models.Model):
-    time = models.DateTimeField(auto_now=True)
+    time = models.DateTimeField(default=timezone.now())
     fio = models.TextField()
-    company = models.CharField(max_length=100)
+    company = models.CharField(max_length=100, null=True, blank=True)
     phone = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
-    comment = models.TextField()
+    comment = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return '{}; {}; {}; {}; {}'.format(self.time, self.fio, self.phone, self.email, self.company)
+        return '{}; {}; {}; {}; {}'.format(str(self.time)[:19], self.fio, self.phone, self.email, self.company)
 
     class Meta:
         verbose_name = 'Заказ звонка партнера'
@@ -118,19 +120,19 @@ class PartnersCall(models.Model):
 
 
 class OrderBuy(models.Model):
-    time = models.DateTimeField(auto_now=True)
+    time = models.DateTimeField(default=timezone.now())
     name = models.CharField(max_length=150)
     email = models.CharField(max_length=100)
     phone = models.CharField(max_length=50)
     city = models.CharField(max_length=150)
     index = models.CharField(max_length=50)
     address = models.TextField()
-    pay_var = models.CharField(choices=[('card', 'card'), ('cash','cash')], max_length=50, default='card')
+    pay_var = models.CharField(choices=[('card', 'card'), ('cash', 'cash')], max_length=50, default='card')
     sum = models.IntegerField()
     basket = models.ManyToManyField('AutoModel')
 
     def __str__(self):
-        return '{}; {}; {}'.format(str(self.time), self.name, self.phone, self.email, str(self.sum))
+        return '{}; {}; {}'.format(str(self.time)[:19], self.name, self.phone, self.email, str(self.sum))
 
     class Meta:
         verbose_name = 'Оформление покупки'
