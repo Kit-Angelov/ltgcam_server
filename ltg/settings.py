@@ -130,3 +130,11 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:8080',
     '0.0.0.0:8080',
 )
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+#EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_HOST_USER = 'info@ltgcam.ru'
+EMAIL_HOST_PASSWORD = 'ltgcamfuture'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
