@@ -27,10 +27,38 @@ class VideoExample(models.Model):
 
 
 class Options(models.Model):
-    text = models.TextField()
+    name = models.CharField(max_length=100)
+    chipset = models.CharField(max_length=100, blank=True, null=True)
+    pixel = models.CharField(max_length=100, blank=True, null=True)
+    sensor = models.CharField(max_length=100, blank=True, null=True)
+    matrix = models.CharField(max_length=100, blank=True, null=True)
+    corner = models.CharField(max_length=100, blank=True, null=True)
+    microphone = models.CharField(max_length=100, blank=True, null=True)
+    sd_card = models.CharField(max_length=100, blank=True, null=True)
+    work_temp = models.CharField(max_length=100, blank=True, null=True)
+    amperage = models.CharField(max_length=100, blank=True, null=True)
+    # video
+    video_mode = models.CharField(max_length=100, blank=True, null=True)
+    video_codec = models.CharField(max_length=100, blank=True, null=True)
+    video_rec_mode = models.CharField(max_length=100, blank=True, null=True)
+    # photo
+    photo_resol = models.CharField(max_length=100, blank=True, null=True)
+    photo_codec = models.CharField(max_length=100, blank=True, null=True)
+    # settings
+    current = models.CharField(max_length=100, blank=True, null=True)
+    time = models.CharField(max_length=100, blank=True, null=True)
+    WDR = models.CharField(max_length=100, blank=True, null=True)
+    shutter_speed = models.CharField(max_length=100, blank=True, null=True)
+    white_balance = models.CharField(max_length=100, blank=True, null=True)
+    frequency = models.CharField(max_length=100, blank=True, null=True)
+    g_sensor = models.CharField(max_length=100, blank=True, null=True)
+    integrations = models.CharField(max_length=100, blank=True, null=True)
+    Wi_Fi = models.CharField(max_length=100, blank=True, null=True)
+    lens = models.CharField(max_length=100, blank=True, null=True)
+    language = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
-        return self.text[:15]
+        return self.name
 
     class Meta:
         verbose_name = 'Характеристика'
@@ -74,7 +102,7 @@ class AutoModel(models.Model):
     main_photo = models.ForeignKey('Photo', on_delete=models.DO_NOTHING, related_name='main_photo')
     description = models.ForeignKey('Description', on_delete=models.DO_NOTHING)
     galery_photo = models.ManyToManyField('Photo', related_name='galery_photo')
-    options = models.ManyToManyField('Options')
+    options = models.ForeignKey('Options', on_delete=models.DO_NOTHING)
     main_options = models.ManyToManyField('MainOptions')
     video = models.ForeignKey('VideoExample', on_delete=models.DO_NOTHING, blank=True, null=True)
     mark = models.ForeignKey('Mark', on_delete=models.CASCADE)

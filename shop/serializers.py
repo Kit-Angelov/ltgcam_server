@@ -27,7 +27,7 @@ class OptionsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Options
-        fields = ['text']
+        fields = '__all__'
 
 
 class MainOptionsSerializer(serializers.ModelSerializer):
@@ -46,7 +46,7 @@ class AutoModelSerializer(serializers.HyperlinkedModelSerializer):
 
     main_photo = PhotoSerializer(many=False)
     galery_photo = PhotoSerializer(many=True)
-    options = OptionsSerializer(many=True)
+    options = OptionsSerializer(many=False)
     main_options = MainOptionsSerializer(many=True)
     video = VideoExampleSerializer(many=False)
     mark = MarkSerializer(many=False)
